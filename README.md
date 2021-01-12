@@ -16,3 +16,4 @@
 
 我偶尔做点练习：
 1. [Vue的MVVM简单实现](https://github.com/EdwardYule/simple-vue/blob/master/Vue.js)
+2. [手写call](https://github.com/EdwardYule/About-Me/blob/main/code/call.html)
