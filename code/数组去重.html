@@ -9,14 +9,10 @@
 <body>
   <script>
     // 首先先用递归实现一个拍平
-    let arr = [1, [2, [3, [4, 5], 6], 7], 8, [3, 7, [3]]];
+    let arr = [1, [2, [3, [4, 5], 6], 7], 8];
     function flat(arr) {
       return arr.reduce((acu, cur) => {
-        if (Array.isArray(cur)) {
-          return [...acu, .../* 关键就是这里需要递归调用一下 */flat(cur)];
-        } else {
-          return [...acu, cur]
-        }
+        return Array.isArray(cur) ? [...acu, ...flat(cur)] : [...acu, cur]
       }, []);
     }
     console.log(flat(arr));
@@ -26,11 +22,7 @@
     let arr2 = [1, [2, [3, [4, 5], 6], 7], 8];
     function flat2(arr) {
       return arr.reduce((acu, cur) => {
-        if (Array.isArray(cur)) {
-          return [...acu, flat2(cur)].flat();
-        } else {
-          return [...acu, cur]
-        }
+        return Array.isArray(cur) ? [acu, flat2(cur)].flat() : [acu, cur].flat();
       }, []);
     }
     console.log(flat2(arr2));
@@ -70,6 +62,21 @@
     console.log(flat5(arr5));
   </script>
   <script>
+    // 这里我们写一个不用reduce的实现
+    let arr6 = [1, [2, [3, [4, 5], 6], 7], 8];
+    function flat6(arr) {
+      let result = [];
+      arr.forEach(ele => {
+        result = result.concat(Array.isArray(ele) ? flat6(ele) : ele)
+      });
+      return result;
+    }
+    console.log(flat6(arr6));
+    /*
+      从这里我们就能看到，reduce无非就是帮我们把初始变量创建出来的一个for循环罢了
+    */
+  </script>
+  <script>
     /*
       总结下来其实我们可以发现这样一个规律
       就是所谓的数组拍平，其实分为两个部分：
@@ -80,7 +87,7 @@
     /*
       这里我们可以再进行总结，将数组拍平一层，有哪些方法呢？
       1. 展开运算符...
-      2. Array.prototype.concat
+      2. Array.prototype.concat/Array.prototype.push
       3. Array.prototype.flat
       4. Array.prototype.toString（这个方法局限性较大，不建议使用）
     */
@@ -91,14 +98,20 @@
     */
     /*
      关于递归我认为还需要再着重讲一下就是
-     递归的关键在于递归条件的编写
+     递归的关键在于递归条件的编写，以及需要搭配一个循环进行使用
      这里的递归，关键就在于，判断数组内部是否还有数组
      如果有，则对内部的数组再次进行递归
      如果没有了，那么就把该数组展开，拼到前面的数组中
      所以它其实是先进入到最里层，然后再从最里面一层一层地展开
      理解了这个想法，递归仿佛也就不难了
+     循环可以使用foreach，当然也能使用reduce，reduce无非就是一个特殊化的foreach，有一个初始值
+    */
+    /*
+     因此，综上来讲，即使是递归，也需要用到循环，因此我们不如就只用循环
+     while循环是最佳答案
     */
   </script>
+
 </body>
 
 </html>
