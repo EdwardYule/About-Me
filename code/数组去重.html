@@ -1,0 +1,104 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数组拍平</title>
+</head>
+
+<body>
+  <script>
+    // 首先先用递归实现一个拍平
+    let arr = [1, [2, [3, [4, 5], 6], 7], 8, [3, 7, [3]]];
+    function flat(arr) {
+      return arr.reduce((acu, cur) => {
+        if (Array.isArray(cur)) {
+          return [...acu, .../* 关键就是这里需要递归调用一下 */flat(cur)];
+        } else {
+          return [...acu, cur]
+        }
+      }, []);
+    }
+    console.log(flat(arr));
+  </script>
+  <script>
+    // 当然我们知道Array也有一个flat方法，我们可以试试看能不能借用这个方法
+    let arr2 = [1, [2, [3, [4, 5], 6], 7], 8];
+    function flat2(arr) {
+      return arr.reduce((acu, cur) => {
+        if (Array.isArray(cur)) {
+          return [...acu, flat2(cur)].flat();
+        } else {
+          return [...acu, cur]
+        }
+      }, []);
+    }
+    console.log(flat2(arr2));
+  </script>
+  <script>
+    // 我们还可以借助于while
+    // 这种方法我认为是最舒服的，简洁明了
+    let arr3 = [1, [2, [3, [4, 5], 6], 7], 8];
+    function flat3(arr) {
+      while (arr.some(ele => Array.isArray(ele))) {
+        arr = arr.flat();
+      }
+      return arr;
+    }
+    console.log(flat3(arr3));
+  </script>
+  <script>
+    // 当然我们不要忘记了最简单的toString
+    // 当然，这种方法局限性也是最大的，他会把类型全部转成字符串了
+    // 当然我们也可以自己做一个类型转换，但是这总归不是真正的拍平了
+    let arr4 = [1, [2, [3, [4, 5], 6], 7], 8];
+    function flat4(arr) {
+      return arr.toString().split(',').map(e => +e);
+    }
+    console.log(flat4(arr4));
+  </script>
+  <script>
+    // 最后我们不要忘记数组有一个concat方法
+    // 这个方法可以接收一串数组，并且将他们拍平一层
+    // 因此我们也能利用这个特性
+    let arr5 = [1, [2, [3, [4, 5], 6], 7], 8];
+    function flat5(arr) {
+      return arr.reduce((acu, cur) => {
+        return acu.concat(Array.isArray(cur) ? flat5(cur) : cur);
+      }, [])
+    }
+    console.log(flat5(arr5));
+  </script>
+  <script>
+    /*
+      总结下来其实我们可以发现这样一个规律
+      就是所谓的数组拍平，其实分为两个部分：
+      第一，就是一个递归，或者是循环，这两者是等价的
+      第二，就是一个一层的拍平
+      将这两者进行结合，就可以得到一个拍平任意嵌套的数组
+    */
+    /*
+      这里我们可以再进行总结，将数组拍平一层，有哪些方法呢？
+      1. 展开运算符...
+      2. Array.prototype.concat
+      3. Array.prototype.flat
+      4. Array.prototype.toString（这个方法局限性较大，不建议使用）
+    */
+    /*
+     然后在结构体的控制上，我们可以用循环，也能用递归
+     用循环的话，用while，简洁明了，我认为这是最好的方法
+     用递归的话，那么我认为用reduce是不错的方法
+    */
+    /*
+     关于递归我认为还需要再着重讲一下就是
+     递归的关键在于递归条件的编写
+     这里的递归，关键就在于，判断数组内部是否还有数组
+     如果有，则对内部的数组再次进行递归
+     如果没有了，那么就把该数组展开，拼到前面的数组中
+     所以它其实是先进入到最里层，然后再从最里面一层一层地展开
+     理解了这个想法，递归仿佛也就不难了
+    */
+  </script>
+</body>
+
+</html>
