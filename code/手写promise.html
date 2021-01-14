@@ -1,0 +1,86 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    class MyPromise {
+      constructor(executor) {
+        this.status = "pending"
+        this.data;
+        this.error;
+        this.resCallbacks = [];
+        this.rejCallbacks = [];
+        let reslove = data => {
+          if (this.status == 'pending') {
+            this.status = "fulfilled";
+            this.data = data;
+            this.resCallbacks.forEach(fn => fn())
+          }
+        }
+        let reject = error => {
+          if (this.status == 'pending') {
+            this.status = "rejected";
+            this.error = error;
+            this.rejCallbacks.forEach(fn => fn());
+          }
+        }
+        try {
+          executor(reslove, reject);
+        } catch {
+          reject();
+        }
+      }
+      then(onFulfilled, onRejected) {
+        if (this.status == "fulfilled") {
+          onFulfilled(this.data);
+        }
+        if (this.status == "rejected") {
+          onRejected(this.data);
+        }
+        if (this.status == "pending") {
+          this.resCallbacks.push(() => {
+            onFulfilled(this.data);
+          });
+          this.rejCallbacks.push(() => {
+            onRejected(this.data);
+          });
+        }
+        return this;
+      }
+      catch(fn) {
+        if (this.status == "rejected") {
+          fn(this.error);
+        }
+        return this;
+      }
+    }
+
+
+
+
+
+    let p = new MyPromise((res, rej) => {
+      // res(1);
+      rej(2);
+      // setTimeout(() => {
+      //   res(1);
+      // }, 1000);
+      // rej(7);
+    });
+    p.then((data) => {
+      console.log('then');
+      console.log(data);
+    }).catch(data => {
+      console.log('catch');
+      console.log(data);
+    });
+    // console.log(p);
+  </script>
+</body>
+
+</html>
