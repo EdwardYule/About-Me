@@ -17,3 +17,4 @@
 我偶尔做点练习：
 1. [Vue的MVVM简单实现](https://github.com/EdwardYule/simple-vue/blob/master/Vue.js)
 2. [手写call](https://github.com/EdwardYule/About-Me/blob/main/code/call.html)
+3. [数组去重](https://github.com/EdwardYule/About-Me/blob/main/code/%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D.html)
