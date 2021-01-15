@@ -19,7 +19,7 @@
           if (this.status == 'pending') {
             this.status = "fulfilled";
             this.data = data;
-            this.resCallbacks.forEach(fn => fn())
+            this.resCallbacks.forEach(fn => fn());
           }
         }
         let reject = error => {
@@ -36,11 +36,14 @@
         }
       }
       then(onFulfilled, onRejected) {
+        let value;
         if (this.status == "fulfilled") {
-          onFulfilled(this.data);
+          onFulfilled && (value = onFulfilled(this.data));
+          return MyPromise.resolve(value);
         }
         if (this.status == "rejected") {
-          onRejected(this.data);
+          onRejected && onRejected(this.data);
+          return MyPromise.reject(value);
         }
         if (this.status == "pending") {
           this.resCallbacks.push(() => {
@@ -49,8 +52,11 @@
           this.rejCallbacks.push(() => {
             onRejected(this.data);
           });
+          return new Promise(() => {
+            
+          })
         }
-        return this;
+
       }
       catch(fn) {
         if (this.status == "rejected") {
@@ -60,26 +66,42 @@
       }
     }
 
+    MyPromise.resolve = function (value) {
+      return new MyPromise(res => {
+        res(value);
+      });
+    }
+
+    MyPromise.reject = function (value) {
+      return new MyPromise((res, rej) => {
+        rej(value);
+      });
+    }
+
 
 
 
 
     let p = new MyPromise((res, rej) => {
-      // res(1);
-      rej(2);
+      res(1);
+      // rej(2);
       // setTimeout(() => {
       //   res(1);
       // }, 1000);
       // rej(7);
     });
-    p.then((data) => {
-      console.log('then');
-      console.log(data);
-    }).catch(data => {
-      console.log('catch');
-      console.log(data);
-    });
+    // p.then().catch(data => {
+    //   console.log('catch');
+    //   console.log(data);
+    // });
     // console.log(p);
+    p.then(data => {
+      console.log('resolve1');
+      console.log(data);
+      return 2;
+    }).then(data => {
+      console.log(data);
+    })
   </script>
 </body>
 
