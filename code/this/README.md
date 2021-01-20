@@ -56,7 +56,7 @@ js的灵活，带来的既有方便，也有困扰。
 
 01. 全局作用域直接调用
 
-``` javascript
+``` JavaScript
 function fn() {
     console.log(this);
 }
@@ -68,7 +68,7 @@ fn();
 
 02. 函数作用域直接调用
 
-``` javascript
+``` JavaScript
 function foo() {
     function bar() {
         console.log(this);
@@ -82,7 +82,7 @@ foo();
 
 03. 作为对象的方法进行调用
 
-``` javascript
+``` JavaScript
 var obj = {
     name: "edward",
     say: function() {
@@ -96,7 +96,7 @@ obj.say(); // "edward"
 
 这里我们面试的时候经常会碰到一个陷阱：
 
-``` javascript
+``` JavaScript
 var obj = {
     name: "edward",
     say: function() {
@@ -113,7 +113,7 @@ fn();
 
 04. 使用call、apply进行调用
 
-``` javascript
+``` JavaScript
 var obj = {
     name: "edward"
 }
@@ -129,7 +129,7 @@ fn.apply(obj);
 
 这里我们还需要说明的一点是，由于这里可以接收任意的参数，所以我们除了传入一个对象以外，其实还能传入其他的值，比如：
 
-``` javascript
+``` JavaScript
 function fn() {
     console.log(this);
 }
@@ -146,7 +146,7 @@ fn.call(1);
 
 05. 使用bind进行绑定后调用
 
-``` javascript
+``` JavaScript
 var obj = {
     name: "edward"
 }
@@ -170,7 +170,7 @@ call、apply、bind三者称为this的显式绑定。
 <div id="1">click me</div>
 ```
 
-``` javascript
+``` JavaScript
 let dom = document.getElementById("1");
 dom.onclick = function() {
     console.log(this);
@@ -183,7 +183,7 @@ dom.onclick = function() {
 
 07. 作为原型方法进行调用
 
-``` javascript
+``` JavaScript
 var proto = {
     name: "proto",
     fn() {
@@ -200,7 +200,7 @@ proto.fn();
 
 08. 作为对象属性的getter/setter调用
 
-``` javascript
+``` JavaScript
 var obj = {
     val: ""
 };
@@ -222,7 +222,7 @@ obj.key = "4";
 
 09. 作为构造函数调用
 
-``` javascript
+``` JavaScript
 function Person(name) {
     this.name = name;
 }
@@ -234,7 +234,7 @@ console.log(edward);
 
 10. 在setTimeout/setInterval中调用
 
-``` javascript
+``` JavaScript
 setTimeout(function() {
     console.log(this);
 }, 1);
@@ -250,7 +250,7 @@ setInterval(function() {
 这里我们不禁联想到了另外一个关键字eval。
 让我们来试试eval中的this吧。
 
-``` javascript
+``` JavaScript
 eval("console.log(this);");
 ```
 
@@ -258,7 +258,7 @@ eval("console.log(this);");
 
 11. 在Promise中调用
 
-``` javascript
+``` JavaScript
 new Promise(function() {
     console.log(this);
 });
