@@ -53,7 +53,7 @@
             onRejected(this.data);
           });
           return new Promise(() => {
-            
+
           })
         }
 
@@ -64,23 +64,17 @@
         }
         return this;
       }
+      static resolve(value) {
+        return new MyPromise(res => {
+          res(value);
+        });
+      }
+      static reject(value) {
+        return new MyPromise((res, rej) => {
+          rej(value);
+        });
+      }
     }
-
-    MyPromise.resolve = function (value) {
-      return new MyPromise(res => {
-        res(value);
-      });
-    }
-
-    MyPromise.reject = function (value) {
-      return new MyPromise((res, rej) => {
-        rej(value);
-      });
-    }
-
-
-
-
 
     let p = new MyPromise((res, rej) => {
       res(1);
