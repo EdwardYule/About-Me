@@ -1,10 +1,10 @@
-# this学习笔记
+# this详解
 
 ## 概要
 
 this是一个神奇的东西，学了忘，忘了学，做个笔记，以后好复习
 
-[这里我参考的是Mozilla的MDN文档](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/this)
+[这里我参考的是Mozilla的文档](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/this)
 
 ## this写在哪里
 
@@ -38,13 +38,14 @@ this指的是当前的执行环境。
 07. 作为原型方法进行调用
 08. 作为对象属性的getter/setter调用
 09. 作为构造函数调用
-10. 在setTimeout/setInterval/Promise中调用
+10. 在setTimeout/setInterval中调用
+11. 在Promise中调用
 
 这里我们可以看到，js的函数实在是太灵活了，可以在几乎所有地方进行调用。这就导致了this的判断也变成了一个复杂的问题。
 
 反观其他语言，像Java中同样存在this关键字，但我们从来没有听说Java程序员困扰于“this究竟是什么”这样一个问题。问题就在于，在Java当中，函数始终是作为对象的方法调用的，因此，this永远指向的就是那个实例。
 
-实际上，js当中，this的原义也是如此。他就是要明白，函数究竟是由谁调用的，调用者是谁。也有文章说，脱离了对象的方法，讨论this是没有意义的。我认为说得也有道理。毕竟一个方法如果不作为对象的方法来调用的话，我们写this的意义其实是不明的。
+实际上，js当中，this的原义也是如此。this的作用就是想要知道，函数究竟是由谁调用的，调用者是谁，或者说是谁拥有了这个函数。也有文章说，脱离了对象的方法，讨论this是没有意义的。我认为说得也有道理。毕竟一个方法如果不作为对象的方法来调用的话，我们写this的意义其实是不明的。
 
 js的灵活，带来的既有方便，也有困扰。
 
