@@ -7,62 +7,139 @@
 </head>
 
 <body>
-  那天，面试官问了我这样一道题目：
-  <!-- <script>
-    function foo() {
-      function bar() {
+  <script>
+    // "use strict"
+    // function fn() {
+    //   console.log(this);
+    // }
+    // fn();
+  </script>
+
+  <script>
+    // "use strict"
+    // function foo() {
+    //   function bar() {
+    //     console.log(this);
+    //   }
+    //   bar();
+    // }
+    // foo();
+  </script>
+
+  <script>
+    // var obj = {
+    //   name: "edward",
+    //   say: function () {
+    //     console.log(this);
+    //   }
+    // }
+    // obj.say();
+    // var fn = obj.say;
+    // fn();
+  </script>
+
+  <script>
+    // var obj = {
+    //   name: "edward"
+    // }
+    // function fn() {
+    //   console.log(this);
+    // }
+    // fn.call(obj);
+    // fn.apply(obj);
+    // fn.call(1);
+  </script>
+
+  <script>
+    // var obj = {
+    //   name: "edward"
+    // }
+    // function fn() {
+    //   console.log(this);
+    // }
+    // let bindFn = fn.bind(obj);
+    // bindFn();
+    // obj.bindFn2 = fn.bind(window);
+    // obj.bindFn2();
+  </script>
+
+  <!-- <div id="1">click me
+    <script>
+      let dom = document.getElementById("1");
+      dom.onclick = function () {
         console.log(this);
       }
-      bar();
-    }
-    foo();
-  </script> -->
-  1. 全局环境中，this指向全局对象（window/globalThis）
-  2. 在函数内部，this的值，取决于怎么调用该函数
-  - 普通调用，指向undefined（混杂模式转为全局对象）
-  <!-- <script>
-    var o = {
-      fn: function () {
-        return this;
-      }
-    }
-    var p = Object.create(o);
-    console.log(p.fn() === p);
-  </script> -->
+    </script>
+  </div> -->
+
   <script>
-    class Car {
-      constructor() {
-        // Bind sayBye but not sayHi to show the difference
-        // this.sayBye = this.sayBye.bind(this);
-      }
-      sayHi() {
-        console.log(`Hello from ${this.name}`);
-      }
-      sayBye() {
-        console.log(`Bye from ${this.name}`);
-      }
-      get name() {
-        return 'Ferrari';
-      }
-    }
+    // var proto = {
+    //   name: "proto",
+    //   fn() {
+    //     console.log(this);
+    //   }
+    // }
+    // var instance = Object.create(proto);
+    // instance.name = "instance";
+    // instance.fn();
+    // proto.fn();
+  </script>
 
-    class Bird {
-      get name() {
-        return 'Tweety';
-      }
-    }
+  <script>
+    // var obj = {
+    //   val: ""
+    // };
+    // Object.defineProperty(obj, "key", {
+    //   get() {
+    //     console.log(this);
+    //     return this.val;
+    //   },
+    //   set(value) {
+    //     console.log(this);
+    //     this.val = value;
+    //   }
+    // });
+    // obj.key;
+    // obj.key = "4";
+  </script>
 
-    const car = new Car();
-    const bird = new Bird();
+  <script>
+    // function Person(name) {
+    //   this.name = name;
+    // }
+    // var edward = new Person("edward");
+    // console.log(edward);
+  </script>
 
-    // The value of 'this' in methods depends on their caller
-    car.sayHi(); // Hello from Ferrari
-    bird.sayHi = car.sayHi;
-    bird.sayHi(); // Hello from Tweety
-
-    // For bound methods, 'this' doesn't depend on the caller
-    bird.sayBye = car.sayBye;
-    bird.sayBye();  // Bye from Ferrari
+  <script>
+    // "use strict"
+    // setTimeout(function () {
+    //   console.log(this);
+    // }, 1);
+    // setInterval(function () {
+    //   console.log(this);
+    // }, 5000);
+    // var o = {
+    //   fn() {
+    //     console.log(this);
+    //     eval(`
+    //     console.log(this);
+    //     function test(){
+    //       console.log(this)
+    //     };
+    //     test();
+    //     var x = {
+    //       name: "x"
+    //     };
+    //     x.fn = function(){
+    //       console.log(this);
+    //     }
+    //     x.fn();
+    //     `);
+    //     console.log(x);
+    //   }
+    // };
+    // o.fn();
   </script>
 </body>
 
