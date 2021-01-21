@@ -36,33 +36,43 @@
         }
       }
       then(onFulfilled, onRejected) {
-        let value;
-        if (this.status == "fulfilled") {
-          onFulfilled && (value = onFulfilled(this.data));
-          return MyPromise.resolve(value);
-        }
-        if (this.status == "rejected") {
-          onRejected && onRejected(this.data);
-          return MyPromise.reject(value);
-        }
-        if (this.status == "pending") {
-          this.resCallbacks.push(() => {
-            onFulfilled(this.data);
-          });
-          this.rejCallbacks.push(() => {
-            onRejected(this.data);
-          });
-          return new Promise(() => {
+        try {
+          let value;
+          if (this.status == "fulfilled") {
+            onFulfilled && (value = onFulfilled(this.data));
+            return MyPromise.resolve(value);
+          }
+          if (this.status == "rejected") {
+            onRejected && (value = onRejected(this.error));
+            return MyPromise.reject(value);
+          }
+          if (this.status == "pending") {
+            this.resCallbacks.push(() => {
+              value = onFulfilled(this.data);
+            });
+            this.rejCallbacks.push(() => {
+              value = onRejected(this.data);
+            });
+            return this;
+            // return new Promise(() => {
 
-          })
+            // })
+          }
+        } catch (err) {
+          return MyPromise.reject(err);
         }
-
       }
       catch(fn) {
         if (this.status == "rejected") {
           fn(this.error);
         }
         return this;
+      }
+      finally(fn) {
+        // if(this.status == "pending"){
+        //   this.finCallbacks.push();
+        // }
+        // fn();
       }
       static resolve(value) {
         return new MyPromise(res => {
