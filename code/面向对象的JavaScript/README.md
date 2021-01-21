@@ -167,10 +167,13 @@ function Person(name, age, gender) {
     this.gender = gender;
 }
 var a = new Person("xiaoming", 18, "male");
-a.__proto__.say = function() {
+a.__proto__.say = function() { // 我们在a的原型上添加一个方法
     console.log("我的名字是：" + this.name);
     console.log("我的年龄是：" + this.age);
 }
+a.say(); // 然后我们发现a可以调用这个方法了
+var b = new Person("xiaohong", 17, "female");
+b.say(); // 然后b上面也存在这个方法了，nice！
 ```
 
 这样写当然是可以实现效果。但是我们发现了一个问题：我们必须先创建一个对象，然后才能获取到原型，然后才能在上面添加方法。
@@ -194,6 +197,9 @@ Person.prototype.say = function() {
     console.log("我的年龄是：" + this.age);
 }
 var a = new Person("xiaoming", 18, "male");
+var b = new Person("xiaohong", 17, "female");
+a.say();
+b.say();
 ```
 
 这样的代码，看起来就舒服多了。
